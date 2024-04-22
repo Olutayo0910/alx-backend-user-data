@@ -1,23 +1,23 @@
 #!/usr/bin/env python3
 """
-Authentication Module
+Auth class for managing API authentication.
 """
 
 from tabnanny import check
 from flask import request
 from typing import TypeVar, List
 from os import getenv
-
 User = TypeVar('User')
+
 
 class Auth:
     """
-    Class to manage API authentication
+    Class to manage API authentication.
     """
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """
-        Checks if authentication is required for a given path
+        Returns False if the path is in excluded_paths.
         """
         check = path
         if path is None or excluded_paths is None or len(excluded_paths) == 0:
@@ -30,7 +30,7 @@ class Auth:
 
     def authorization_header(self, request=None) -> str:
         """
-        Retrieves the authorization header from a request
+        Returns the Authorization header from the request.
         """
         if request is None:
             return None
@@ -38,14 +38,14 @@ class Auth:
 
     def current_user(self, request=None) -> User:
         """
-        Retrieves the current user from a request
+        Returns the current user based on the request.
         """
         return None
 
     def session_cookie(self, request=None):
         """
-        Retrieves a session cookie from a request
+        Returns the value of the session cookie from the request.
         """
         if request:
             session_name = getenv("SESSION_NAME")
-            return request.cookie.get(session_name, None)
+            return request.cookies.get(session_name, None)
